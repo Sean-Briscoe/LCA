@@ -17,7 +17,7 @@ class Tree
 	Node lca(Node root, int input1,int input2)
 	{
 		if(root.data==input1 || root.data==input2)return root;	
-    if(root==null)return null;
+    		if(root==null)return null;
 			
 		Node left = lca(root.left,input1,input2);
 		Node right = lca(root.right,input1,input2);
