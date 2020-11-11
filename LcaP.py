@@ -1,22 +1,23 @@
-
-
 class Node: 
     
 
-    def __init__(self, item, left, right ):
-        self.data = item
-        self.left = left
-        self.right = right
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
 
 
 
-def lca(root, input1, input2):
+def lca(root, n1, n2):
 
     if root is None:
         return None
 
-    left = lca(root.left, input1, input2)
-    right = lca(root.right, input1, input2)
+    if root == n1 or root == n2:
+        return root
+
+    left = lca(root.left, n1, n2)
+    right = lca(root.right, n1, n2)
 
     if left is not None and right is not None:
         return root
@@ -25,17 +26,9 @@ def lca(root, input1, input2):
         return left
     else:
         return right
+
     
-
-def main():
-    one =  Node(1, 2, 3)
-    two =  Node(2,None,None)
-    three = Node(3,None,None)
-
-    answer = lca(one, 2,3)
-    print(answer.data)
-
-
-
-
-
+root = Node(1)
+root.left.left = Node(4)
+root.left.right = Node(5)
+print ("LCA(4,5) = ",lca(root, 4, 5).data)
