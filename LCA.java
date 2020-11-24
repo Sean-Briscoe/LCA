@@ -3,13 +3,13 @@ import java.util.ArrayList;
 class Node { 
 	int data; 
 	ArrayList<Node> parents;
-	int colour;  //Colour will be used to colour tree, 0 is red, 1 is blue, 2 is purple (where blue x red)
+	String colour;  //Colour will be used to colour tree, 0 is red, 1 is blue, 2 is purple (where blue x red)
 	int counter; //will be used to decide lowest
 
 	Node(int value) { 
 		data = value; 
 		parents = new ArrayList<Node>();
-		colour = 0;
+		colour = null;
 		counter = 0;
 	} 
 }
@@ -19,25 +19,73 @@ public class test {
 	static Node root;
 	
 
-        static void colour(Node search) {
+        static void colourB(Node input){
             
-            search.parents.get(0).colour++;
-            return;
-            
-           /* if (search.parents == null) {
-                search.colour = 7;
+            if(input.parents == null){
+                
                 return;
+
             }
             else{
-                for (int i = 0; i >= search.parents.size(); i++) {
-                    colour(search.parents.get(i));
-                    return;
+                for(int i = 0; i <= input.parents.size(); i++){
+                    input.parents.get(i).colour = "Blue";
+                    colourB(input.parents.get(i));
+
                 }
+                
             }
-            System.out.println("fail");
-            return;*/
-            
+
         }
+
+        static void colourR(Node input){
+
+            if(input.parents == null){
+                
+                return;
+
+            }
+            else{
+                for(int i = 0; i <= input.parents.size(); i++){
+                   if (input.parents.get(i).colour == "Blue") input.parents.get(i).colour = "Red";
+                    colourR(input.parents.get(i));
+
+                }
+                
+
+
+            }
+
+
+        }
+
+        static void incCount(Node input){
+            if(input.parents == null){
+                
+                return;
+
+            }
+            else{
+            for(int i = 0; i <= input.parents.size(); i++){
+                if (input.parents.get(i).colour == "Red") input.parents.get(i).counter++;
+                 incCount(input.parents.get(i));
+
+             }
+
+                return;
+            }
+        }
+
+        static ArrayList<Node> listOfSolutions(Node input){
+
+            ArrayList<Node> listOfSolutions = new ArrayList<Node>();
+            for(int i = 0; i <= input.parents.size(); i++){
+                int j = 0;
+                if (input.parents.get(i).counter == 0) listOfSolutions.add(input.parents.get(i));
+
+             }
+             return listOfSolutions;
+        }
+
 
         public static void main(String[] args) {
 
@@ -57,7 +105,16 @@ public class test {
         five.parents.add(three);
         five.parents.add(root);
         
-        colour(five);
-        System.out.println("root colour: "+ three.colour);
+        colourB(five);
+        colourR(four);
+        incCount(five);
+        
+        ArrayList<Node> solutions = listOfSolutions(five);
+        for(int i = 0; i>= solutions.size(); i++){
+
+            System.out.println("Solution "+ solutions.get(i));
+
+        }
+        System.out.println("Finished");
         }    
 }
