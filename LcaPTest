@@ -1,0 +1,23 @@
+import unittest
+import LcaP
+
+class TestpythonLca(unittest.TestCase):
+
+
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.right = Node(4)
+    root.right.left = Node(5)
+    root.right.right = Node(6)
+    root.right.left.left = Node(7)
+    root.right.right.right = Node(8)
+ 
+    def test_Lca(self):
+        self.assertEqual((Lca(root, root.left, root.right.left)),1,"Should be 1")
+        self.assertEqual((Lca(root, root.right.left.left, root.right.right)),3,"Should be 3")
+        self.assertEqual((Lca(root, root.right.left.left, root.right.left)),5,"Should be 5")
+        self.assertEqual(( Lca(root, root.right.left.left, root.right.left.left)),7,"Should be 7")
+
+    def test_not_present_Lca(self):
+        self.assertEqual(Lca(Lca(root, root.right.left.left, Node(10))),"LCA doesn't exist","Should not be present")
