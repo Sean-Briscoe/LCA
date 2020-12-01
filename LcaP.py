@@ -1,34 +1,58 @@
-class Node: 
-    
 
-    def __init__(self,data):
+
+#struct
+class Node:
+    def __init__(self, data, left=None, right=None):
         self.data = data
-        self.left = None
-        self.right = None
-
-
-
-def lca(root, n1, n2):
+        self.left = left
+        self.right = right
+ 
+ 
+#Checks if node is in tree
+def nodePrescence(root, node):
 
     if root is None:
-        return None
+        return False
+ 
+    if root == node:
+        return True
 
-    if root == n1 or root == n2:
-        return root
-
-    left = lca(root.left, n1, n2)
-    right = lca(root.right, n1, n2)
-
-    if left is not None and right is not None:
-        return root
-    
-    if left is not None:
-        return left
+    return nodePrescence(root.left, node) or nodePrescence(root.right, node)
+ 
+ 
+def lcaPrescence(root, lca, x, y):
+ 
+    #base case
+    if root is None:
+        return False, lca
+ 
+    if root == x or root == y:
+        return True, root
+ 
+    #left side
+    left, lca = lcaPrescence(root.left, lca, x, y)
+    #right side
+    right, lca = lcaPrescence(root.right, lca, x, y)
+ 
+    #if x and y are found in left and right respectively update lca
+    if left and right:
+        lca = root
+ 
+    #return if x or y is present
+    return (left or right), lca
+ 
+ 
+#lca function
+def Lca(root, x, y):
+ 
+    # lca current lca
+    lca = None
+ 
+    #x and y present? call lca
+    if nodePrescence(root, y) and nodePrescence(root, x):
+        lca = lcaPrescence(root, lca, x, y)[1]
+ 
+    if lca:
+        return lca.data
     else:
-        return right
-
-    
-root = Node(1)
-root.left.left = Node(4)
-root.left.right = Node(5)
-print ("LCA(4,5) = ",lca(root, 4, 5).data)
+        print("LCA doesn't exist")
